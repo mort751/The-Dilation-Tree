@@ -5,6 +5,7 @@ addLayer("p", {
     startData() { return {
         unlocked: true,
 		points: new Decimal(0),
+        dilate: false,
     }},
     color: "#4BDC13",
     requires: new Decimal(10), // Can be a function that takes requirement increases into account
@@ -24,8 +25,25 @@ addLayer("p", {
     layerShown(){return true},
     tabFormat: [
     'main-display',
-    'blank',
-    'blank',
     'resource-display',
-    ]
+    ["display-text", function() { 
+        let dilated = ''
+        if(!player[this.layer].dilate) dilated = 'not'
+        return 'Your prestige is ' + dilated + ' currently dilated' }, 
+    ],
+    'blank',
+    ['clickable', 11]
+    ],
+    clickables: {
+    11: {
+        display() { return "Dilate" },
+        canClick() { return true },
+        onClick() {
+            player[this.layer].dilate = !player[this.layer].dilate
+            doReset(this.layer) 
+            if(!player[this.layer].dilate) { 
+            } 
+        }
+    }
+    },
 })
