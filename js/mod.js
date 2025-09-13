@@ -41,8 +41,15 @@ function getPointGen() {
 	if(!canGenPoints())
 		return new Decimal(0)
 
-	let gain = new Decimal(1)
-	if(player.p.dilate) gain = gain.mul(0.1)
+	let gain = new Decimal(1.01)
+	if(hasUpgrade('dp', 11)) gain = gain.mul(2.00)
+
+	//dilation effects
+	if(player.dp.dilate) {
+		gain = gain.pow(0.25).div(10) 
+		if(hasUpgrade('dp', 12)) gain = gain.pow(1.10)
+	}
+
 	return gain
 }
 
